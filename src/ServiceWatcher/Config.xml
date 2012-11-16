@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Servers>
+  <!--These can be repeated as many times as needed...-->
+	<Server Name="ServerName">
+		<Services>
+			<Service DisplayName="What ever you want to call this service" ShortName="ServiceShortName"/>
+			<Service DisplayName="What ever you want...." ShortName="ServiceShortName"/>
+		</Services>
+	</Server>
+</Servers>
