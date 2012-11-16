@@ -1,110 +1,110 @@
 ﻿<Window x:Class="ServiceWatcher.Main"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ServiceControllerApp="clr-namespace:ServiceWatcher"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ServiceControllerApp="clr-namespace:ServiceWatcher"
         xmlns:Converters="clr-namespace:ServiceWatcher.Converters" xmlns:Backend="clr-namespace:ServiceWatcher.Backend"
-        Title="Service Controller"
-		Height="400"
-		Width="250">
-    <Window.DataContext>
-        <ServiceControllerApp:MainViewModel/>
-    </Window.DataContext>
-	<Window.Resources>
-        <Converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
-        <Converters:BooleanNegationConverter x:Key="booleanNegationConverter"/>
-		<HierarchicalDataTemplate x:Key="ManagementObjectTemplate"
-                                  DataType="{x:Type Backend:ManagementObjectBase}">
-			<StackPanel Orientation="Horizontal">
-				<Ellipse x:Name="uxEllipse"
-						 Width="15"
-						 Height="15"
-						 Margin="0,0,5,0">
-					<Ellipse.Style>
-						<Style TargetType="Ellipse">
-							<Setter Property="Fill">
-								<Setter.Value>
-									<LinearGradientBrush>
-										<GradientStop Offset="0"
-													  Color="Yellow" />
-										<GradientStop Offset="1"
-													  Color="YellowGreen" />
-									</LinearGradientBrush>
-								</Setter.Value>
-							</Setter>
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding Path=IsRunning}"
-											 Value="True">
-									<Setter Property="Fill">
-										<Setter.Value>
-											<LinearGradientBrush>
-												<GradientStop Offset="0"
-															  Color="Green" />
-												<GradientStop Offset="1"
-															  Color="GreenYellow" />
-											</LinearGradientBrush>
-										</Setter.Value>
-									</Setter>
-								</DataTrigger>
-								<DataTrigger Binding="{Binding Path=IsRunning}"
-											 Value="False">
-									<Setter Property="Fill">
-										<Setter.Value>
-											<LinearGradientBrush>
-												<GradientStop Offset="0"
-															  Color="Red" />
-												<GradientStop Offset="1"
-															  Color="Pink" />
-											</LinearGradientBrush>
-										</Setter.Value>
-									</Setter>
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</Ellipse.Style>
-				</Ellipse>
-				<StackPanel>
-					<TextBlock Text="{Binding DisplayName}" />
-				</StackPanel>
-			</StackPanel>
-        </HierarchicalDataTemplate>
-        <HierarchicalDataTemplate x:Key="ServerTemplate"
-                                  DataType="{x:Type Backend:Server}"
-                                  ItemTemplate="{StaticResource ManagementObjectTemplate}"
-                                  ItemsSource="{Binding Services}">
-            <TextBlock Text="{Binding Name}"/>
-        </HierarchicalDataTemplate>
-	</Window.Resources>
+        Title="Service Watcher"
+        Height="400"
+        Width="250">
+  <Window.DataContext>
+    <ServiceControllerApp:MainViewModel/>
+  </Window.DataContext>
+  <Window.Resources>
+    <Converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+    <Converters:BooleanNegationConverter x:Key="booleanNegationConverter"/>
+    <HierarchicalDataTemplate x:Key="ManagementObjectTemplate"
+                              DataType="{x:Type Backend:ManagementObjectBase}">
+      <StackPanel Orientation="Horizontal">
+        <Ellipse x:Name="uxEllipse"
+                 Width="15"
+                 Height="15"
+                 Margin="0,0,5,0">
+          <Ellipse.Style>
+            <Style TargetType="Ellipse">
+              <Setter Property="Fill">
+                <Setter.Value>
+                  <LinearGradientBrush>
+                    <GradientStop Offset="0"
+                                  Color="Yellow" />
+                    <GradientStop Offset="1"
+                                  Color="YellowGreen" />
+                  </LinearGradientBrush>
+                </Setter.Value>
+              </Setter>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsRunning}"
+                             Value="True">
+                  <Setter Property="Fill">
+                    <Setter.Value>
+                      <LinearGradientBrush>
+                        <GradientStop Offset="0"
+                                      Color="Green" />
+                        <GradientStop Offset="1"
+                                      Color="GreenYellow" />
+                      </LinearGradientBrush>
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsRunning}"
+                             Value="False">
+                  <Setter Property="Fill">
+                    <Setter.Value>
+                      <LinearGradientBrush>
+                        <GradientStop Offset="0"
+                                      Color="Red" />
+                        <GradientStop Offset="1"
+                                      Color="Pink" />
+                      </LinearGradientBrush>
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Ellipse.Style>
+        </Ellipse>
+        <StackPanel>
+          <TextBlock Text="{Binding DisplayName}" />
+        </StackPanel>
+      </StackPanel>
+    </HierarchicalDataTemplate>
+    <HierarchicalDataTemplate x:Key="ServerTemplate"
+                              DataType="{x:Type Backend:Server}"
+                              ItemTemplate="{StaticResource ManagementObjectTemplate}"
+                              ItemsSource="{Binding Services}">
+      <TextBlock Text="{Binding Name}"/>
+    </HierarchicalDataTemplate>
+  </Window.Resources>
+  <Grid>
     <Grid>
-	    <Grid>
-		    <Grid.RowDefinitions>
-			    <RowDefinition />
-			    <RowDefinition Height="35" />
-		    </Grid.RowDefinitions>
-            <TreeView x:Name="uxServers"
-				      Grid.Row="0"
-                      ItemsSource="{Binding Servers}"
-                      ItemTemplate="{StaticResource ServerTemplate}"
-                      SelectedItemChanged="OnSelectedItemChanged"
-				      VerticalAlignment="Stretch"/>
-            <StackPanel Grid.Row="1"
-					    Orientation="Horizontal">
-			    <Button Content="Start"
-					    Command="{Binding StartCommand}"
-					    Width="50"/>
-			    <Button Content="Stop"
-					    Command="{Binding StopCommand}"
-					    Width="50"/>
-			    <Button Content="Kill"
-					    Command="{Binding KillCommand}"
-					    Width="50"/>
-			    <Button Content="Refresh"
-					    Command="{Binding RefreshCommand}"
-					    Width="50"/>
-		    </StackPanel>
-	    </Grid>
-        <ServiceControllerApp:ProgressIndicator HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch" 
-                                                Visibility="{Binding IsLoaded, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=false}"
-                                                IsRunning="{Binding IsLoaded, Converter={StaticResource booleanNegationConverter}}"/>
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition Height="35" />
+      </Grid.RowDefinitions>
+      <TreeView x:Name="uxServers"
+                Grid.Row="0"
+                ItemsSource="{Binding Servers}"
+                ItemTemplate="{StaticResource ServerTemplate}"
+                SelectedItemChanged="OnSelectedItemChanged"
+                VerticalAlignment="Stretch"/>
+      <StackPanel Grid.Row="1"
+                  Orientation="Horizontal">
+        <Button Content="Start"
+                Command="{Binding StartCommand}"
+                Width="50"/>
+        <Button Content="Stop"
+                Command="{Binding StopCommand}"
+                Width="50"/>
+        <Button Content="Kill"
+                Command="{Binding KillCommand}"
+                Width="50"/>
+        <Button Content="Refresh"
+                Command="{Binding RefreshCommand}"
+                Width="50"/>
+      </StackPanel>
     </Grid>
+    <ServiceControllerApp:ProgressIndicator HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch" 
+                                            Visibility="{Binding IsLoaded, Converter={StaticResource boolToVisibilityConverter}, ConverterParameter=false}"
+                                            IsRunning="{Binding IsLoaded, Converter={StaticResource booleanNegationConverter}}"/>
+  </Grid>
 </Window>
-	
+  
